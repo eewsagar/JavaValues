@@ -1,0 +1,11 @@
+
+Name:yoon
+Account: 7
+Address: 7899
+Balance: 3400
+Transaction:
+*******************
+Date 		Amount		TransactionType 	Balance
+
+2020-08-01	4000		deposit			4000
+2020-08-01	600		withdrawal			3400

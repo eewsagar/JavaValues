@@ -1,0 +1,12 @@
+
+Name:tom
+Account: 1
+Address: disney
+Balance: 3900
+Transaction:
+*******************
+Date 		Amount		TransactionType 	Balance
+
+2020-08-02	4000		deposit			4000
+2020-08-02	400		deposit			4400
+2020-08-02	500		withdrawal			3900

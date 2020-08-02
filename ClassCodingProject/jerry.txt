@@ -1,0 +1,11 @@
+
+Name:jerry
+Account: 3
+Address: disney
+Balance: 300
+Transaction:
+*******************
+Date 		Amount		TransactionType 	Balance
+
+2020-08-01	700		deposit			700
+2020-08-01	400		deposit			300
