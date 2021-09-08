@@ -1,2 +1,32 @@
-hello world
-data is here
+
+for svn tortoisesvn
+https://tortoisesvn.net/downloads.html
+
+java code for helping java project
+https://github.com/eewsagar/JavaValues
+
+com.main.image
+com.main.pojo  (plain old java object / getter and setter)
+com.main.view
+com.main.utility
+------ communication
+ who is send -> what is send -> how is send -> whom u r send
+ user/pass -> gmail. driver, port, ip -> gmail utitly -> user
+ --------------------------
+ Google setting -> manage account  -> sercurity -> search less secure app  -> on it
+ 
+ 
+ ------------------------------------------------
+ MIME - Multipurpose Internet Mail Extensions
+ ----------------
+ Assignment: 
+ Make regirsteration frame 
+ first name
+ lastname
+ address
+ phone no
+ email id
+ password ( random generated and save in database)
+ 
+ if database save properly then trigger a mail to a user with proper message(email id/ password).
+
