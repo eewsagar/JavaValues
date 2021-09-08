@@ -1,0 +1,29 @@
+for our used java 8-
+https://www.oracle.com/technetwork/java/javase/downloads/jdk-netbeans-jsp-3413139-esa.html
+
+netbeans 8.2
+https://netbeans-ide.informer.com/8.2
+-------------------------------------------------
+servlet 
+lifecycle  -> initilazed -> working -> code jsp or servelet code in to class/ byte code -> run -> dead
+
+jsp - java server page (webpage )
+       jsp scriplet <%> + html  = embeded
+--------------------------------------------------
+
+webapplication
+
+new webapplication
+ (hint is application doing right run it)
+html code for registration
+ first name
+ lastname
+ address
+ phone no
+ email id
+ not from user password ( random generated and save in database)
+ 
+*** if database save properly then trigger a mail to a user with proper message(email id/ password).
+( java code)
+servlet file creation and code.
+ 
