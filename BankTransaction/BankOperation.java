@@ -13,14 +13,13 @@ package com.main.bankingOperation;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.*;         //this package is imported for sql connection
 import java.util.*;        //this package is imported to use scanner
 //this package is imported to perform file operations
 
-public class ExampleOFBank //declaration of jdbcex class 
+public class BankOperation //declaration of jdbcex class 
 {                          //curly bracket start
     //JDBC driver name and database URL
 
@@ -52,68 +51,10 @@ public class ExampleOFBank //declaration of jdbcex class
 
     }//declaration of static variale PASS and blankvalue assigned to it
 
-    public static void main(String[] args) //declaration of main method,execution starts from here
-    {
-        //In this program two tables are created tbl_transaction and tbl_account
-        //tbl_transaction(acc_no,transaction_date,ammount,transaction_type,balance)
-        //tbl_account(acc_no,name,age,address,opening_balance_ammount)
-        try {
-             String s1=null;
-            do
-            {
-            System.out.println("**************************BANK MANAGEMENT SYSTEM******************************");
-            System.out.println("1.create account.");
-            System.out.println("2.Transaction.");
-            System.out.println("3.printData");
-            System.out.println("4.Delete Account");
-            //initializing scanner to accept values
-            System.out.println("Enter your choice");
-            int choice = s.nextInt();
-            
-            switch (choice) {
-                case 1:                                       //scan open_bal_amount entered by user and store it in opbalam variable
-                    saveDetails();                       //calling saveDetails()function to insert the values in tbl_account
-                    break;
-                case 2:
-                    transaction();                  //calling transaction() function to insert values and to perform transactions in tbl_transaction      
-                    break;
-                case 3:
-                    printData();
-                    break;
-                case 4:
-                    deleteAccount();
-                    break;
-                default:
-                    //prints the double quoted text on output console screen
-                    System.out.println("Goodbye!");
-                    break;
-            }
-            System.out.println("Do you want to Cont...(Y/N)?");
-             s1 = s.next();
-        }while(s1.equals("y"));
-            
-        }catch (Exception e) {
-            System.out.println(e);
-        }finally{
-            
-        System.exit(0);
-        }
-
-    }   //end of the main() function
-
 //saveDetails() function defination starts here
-    public static void saveDetails() throws SQLException {
+    public static int saveDetails(String name, int age, String address, int opbalam) throws SQLException {
+        int accno = 0;
         try {
-            //scan acc_no entered by user and strore it in accno variable
-            System.out.println("Enter your name");                             //prints the double quoted text on output console screen
-            String name = s.next();                                          //scan name entered by user and store it in name variable
-            System.out.println("Enter your age");                              //prints the double quoted text on output console screen
-            int age = s.nextInt();                                               //scan age entered by user and store it in age variable
-            System.out.println("Enter your address");                          //prints the double quoted text on output console screen
-            String address = s.next();                                       //scan address entered by user and store it in address variable
-            System.out.println("Enter opening balance amount");                //prints the double quoted text on output console screen
-            int opbalam = s.nextInt();
-
             Statement stmt = null;
             stmt = connection.createStatement();
             System.out.println("Inserting records into the table...");
@@ -126,9 +67,8 @@ public class ExampleOFBank //declaration of jdbcex class
 
             String sqlaccno = "Select max(accno) from tbl_account";
             ResultSet rs = connection.createStatement().executeQuery(sqlaccno);
-
             while (rs.next()) {
-                int accno = rs.getInt(1);
+                accno = rs.getInt(1);
                 System.out.println(name + " your acont number is : " + accno + "please save it for further used");
 
                 String sql2 = "INSERT INTO `tbl_transaction` (`accno1`, `date1`, `trantype`, "
@@ -143,28 +83,25 @@ public class ExampleOFBank //declaration of jdbcex class
             System.out.println(se);
         }
         System.out.println("Account Successfully creadted");
+        return accno;
     } //end of saveDetails function
 
 //transactio function defination starts here
-    public static void transaction() throws Exception {
+    public static String transaction(String accno2, int amount, String trantype) throws Exception {
+        String message = "";
         try {
-            System.out.println("Enter account no");                            //prints the double quoted text on output console screen
-            int accno2 = s.nextInt(), balance1 = 0;
-            System.out.println("date : " + date);
-            System.out.println("Enter amount");                                //prints the double quoted text on output console screen
-            int amount = s.nextInt();                                            //scan amount entered by user and store it in amount variable
-            System.out.println("Enter transaction type");                      //prints the double quoted text on output console screen
-            String trantype = s.next();
+            System.out.println("hello");
             Statement stmt1 = null;
             String sqlbal = "SELECT balance1 FROM `tbl_transaction` WHERE accno1 ='" + accno2 + "' "
                     + "and transactionid in (SELECT max(transactionid) FROM "
                     + "`tbl_transaction` WHERE accno1 ='" + accno2 + "')";
             ResultSet rs = connection.createStatement().executeQuery(sqlbal);
-
+            int balance1 = 0;
             while (rs.next()) {
                 balance1 = rs.getInt("balance1");
             }
-            if (trantype.equals("deposit")) {
+            System.out.println("balanace : " + balance1);
+            if (trantype.equalsIgnoreCase("deposit")) {
                 balance1 = balance1 + amount;
                 stmt1 = connection.createStatement();
                 System.out.println("Inserting records into the table...");
@@ -175,9 +112,9 @@ public class ExampleOFBank //declaration of jdbcex class
                         + " '" + amount + "', '" + balance1 + "')";
 
                 stmt1.executeUpdate(sql2);
-                System.out.println("Inserted records into the table...");
+                message = "Inserted records into the table...";
 
-            } else if (trantype.equals("withdrawal")) {
+            } else if (trantype.equalsIgnoreCase("withdrawal")) {
                 if (balance1 > amount) {
                     balance1 = balance1 - amount;
                     stmt1 = connection.createStatement();
@@ -188,9 +125,9 @@ public class ExampleOFBank //declaration of jdbcex class
                             + "VALUES ('" + accno2 + "', '" + date + "', 'withdrawal',"
                             + " '" + amount + "', '" + balance1 + "')";
                     stmt1.executeUpdate(sql2);
-                    System.out.println("Inserted records into the table...");
+                    message = "Inserted records into the table...";
                 } else {
-                    System.out.println("Not sufficient balance ... Please Check your balance first");
+                    message = "Not sufficient balance ... Please Check your balance first";
                 }
             }
 
@@ -198,18 +135,15 @@ public class ExampleOFBank //declaration of jdbcex class
         catch (SQLException se) {
             se.printStackTrace();
         }
-        System.out.println("Transaction Successfully done!");
+        return message;
     } //end of the transaction function
 
-//printData() method definition starts here 
-    public static void printData() throws SQLException {
+    public static void printData(int accnumber) throws SQLException {
         try {
-            System.out.println("Please enter the account number for which you wann print passbook : \n");
-            int accnumber = s.nextInt();
             String sql5 = "select a.accno,a.name,a.age,a.address,t.date1,"
                     + "t.trantype,t.amount,t.balance1 from tbl_account a, "
-                    + "tbl_transaction t where a.accno=t.accno1 and t.accno1='"+accnumber+"'";
-            System.out.println("sql5 : " + sql5);
+                    + "tbl_transaction t where a.accno=t.accno1 and t.accno1='" + accnumber + "'";
+            
             try {
                 String name = "";
                 PrintWriter outputfile = null;
@@ -236,7 +170,7 @@ public class ExampleOFBank //declaration of jdbcex class
                     sbf1.append("\t\t\t" + rs.getInt("t.balance1"));
 
                     System.out.println("print data : " + sbf);
-                    String filename = name + ".txt";
+                    String filename = name+"_"+accnumber + ".txt";
                     outputfile = new PrintWriter(filename);
 
                     outputfile.append(sbf.toString());
@@ -256,13 +190,11 @@ public class ExampleOFBank //declaration of jdbcex class
     } //end of printdata() function defination
 
 //deleteAccount() function defination starts here
-    public static void deleteAccount() {
+    public static String deleteAccount(int no) {
+        String message="";
         try {
             Statement stmt4 = null;
             stmt4 = connection.createStatement();
-            Scanner sn = new Scanner(System.in);
-            System.out.println("Do you really want to delete account? if yes enter account_no");
-            int no = sn.nextInt();
 
             String sqlacc = "SELECT name FROM `tbl_account` WHERE accno ='" + no + "'";
             ResultSet rs = connection.createStatement().executeQuery(sqlacc);
@@ -277,22 +209,70 @@ public class ExampleOFBank //declaration of jdbcex class
             String sql5 = "DELETE FROM `tbl_account` WHERE accno='" + no + "'";
             //execute query
             stmt4.executeUpdate(sql5);
-            String filename = name + ".txt";
+            message =  "Account "+name+" "+no +" is deleted !!!!";
+            String filename = name+"_"+no + ".txt";
             System.out.println("filename " + filename);
             File f = new File(filename);           //file to be delete  
+            if(f.exists()){
             if (f.delete()) //returns Boolean value  
             {
-                System.out.println(f.getName() + " deleted");   //getting and printing the file name  
+                message = message +" "+f.getName()+"_"+  no + " file also deleted";   //getting and printing the file name  
             } else {
-                System.out.println("failed");
+                message = "failed";
             }
-            System.out.println("Account is beign deleted ...!");
+            }else{
+            message = message +" "+f.getName()+"_"+  no + " no file present."; 
+            }
+            
 
         } //handles jdbc errors
         catch (SQLException se) {
             se.printStackTrace();
         }
+        return message;
 
     }
+
+//printData() method definition starts here 
+    public static String SearchData(int accnumber) throws SQLException {
+        String name = "";
+        try {
+            String sql5 = "select * from tbl_account where accno ='" + accnumber + "'";
+            try {
+
+                ResultSet rs = connection.createStatement().executeQuery(sql5);//here resultset is used fetch data from database
+                while (rs.next()) {
+
+                    name = rs.getString("name");
+
+                }
+            }//handles file operation errors
+            catch (Exception e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+        }
+        return name;
+    } //end of printdata() function defination
+
+    public static ResultSet TransactionData(int accnumber) throws SQLException {
+        ResultSet rs = null;
+
+        String sql5 = "select * from tbl_transaction where accno1 ='" + accnumber + "'";
+        try {
+
+            rs = connection.createStatement().executeQuery(sql5);//here resultset is used fetch data from database
+
+        }//handles file operation errors
+        catch (Exception e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        return rs;
+    } //end of printdata() function defination
+
 //end of deleteAccount() function 
 }//end of class
+
