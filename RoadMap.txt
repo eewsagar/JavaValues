@@ -1,0 +1,23 @@
+1. c languang  -> basic  (w3school.com) self read
+2. c++ -> advance language then c. /  java
+3. java -> we started from basic. w3school. - 30 days - 40 days (2 project).
+notepad++, eclipse 
+4. jsp/servlet -> java server pages/ server+java (webapplication) - 10days
+eclipse
+5. sql database -> 10 days 0 to hero
+xamp server
+5. spring boot (framework) - 20 - 30days (api) (1 project).
+eclipse
+6. html+css+java script -> 10 days (static website)
+vscode
+6. anuglar/ node (front end) -> tutorial 0 to hero -> 30 days
+vscode
+7. project -> fullstack project (1 big project ). (20 days)
+eclipse, xampp server, vscode
+8. mock interview 
+
+
+front end  -> backend -> database
+IDE - integrated development environment
+
+**** making notes.
